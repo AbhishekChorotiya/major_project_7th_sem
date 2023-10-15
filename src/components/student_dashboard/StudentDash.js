@@ -6,6 +6,9 @@ import { faUser, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 import Dash from "./pages/Dashboard";
 import Test from "./pages/Test";
+
+import AttendancePage from "./pages/attendance/AttendancePage";
+
 const StudentDash = () => {
   const navigate = useNavigate();
   function handleQuiz() {
@@ -35,10 +38,14 @@ const StudentDash = () => {
       },
     });
 
-    const data = await res.json();
+    const data = await res.json(1);
     setData(data);
     console.log(data);
   };
+
+  // Handle navigation button
+
+  const [pageNo, setPageNo] = useState(1);
 
   return (
     <div className={StudentDashCss.container}>
@@ -72,21 +79,28 @@ const StudentDash = () => {
 
       <div className={StudentDashCss.front}>
         <div className={StudentDashCss.options}>
-          <button>Dashboard</button>
-          <button>Class Schedule</button>
-          <button>Attendance</button>
-          <button>Assignments</button>
-          <button>Academic Progress</button>
-          <button>Courses</button>
-          <button>Study Material</button>
-          <button>Faculty Feedback</button>
-          <button>Student Feedback</button>
-          <button onClick={handleQuiz}>Quiz</button>
-          <button>Announcements</button>
-          <button>Academic Support</button>
+          <button onClick={() => setPageNo(1)}>Dashboard</button>
+          <button onClick={() => setPageNo(2)}>Class Schedule</button>
+          <button onClick={() => setPageNo(3)}>Attendance</button>
+          <button onClick={() => setPageNo(4)}>Assignments</button>
+          <button onClick={() => setPageNo(5)}>Academic Progress</button>
+          <button onClick={() => setPageNo(6)}>Courses</button>
+          <button onClick={() => setPageNo(7)}>Study Material</button>
+          <button onClick={() => setPageNo(8)}>Faculty Feedback</button>
+          <button onClick={() => setPageNo(9)}>Student Feedback</button>
+          <button
+            // onClick={handleQuiz}
+            onClick={() => setPageNo(10)}
+          >
+            Quiz
+          </button>
+          <button onClick={() => setPageNo(11)}>Announcements</button>
+          <button onClick={() => setPageNo(12)}>Academic Support</button>
         </div>
 
-        {Dash()}
+        <div className={StudentDashCss["panel-display"]}>
+          {pageNo == 1 ? <Dash /> : pageNo == 3 ? <AttendancePage /> : <Dash />}
+        </div>
       </div>
     </div>
   );

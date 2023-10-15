@@ -20,6 +20,8 @@ import ManageAttendance from "./components/faculty/attendance/manageAttendance";
 import TakeAttendance from "./components/faculty/attendance/takeAttendance";
 import Attendance_student from "./components/student_dashboard/pages/Attendance";
 
+import AttendancePage from "./components/student_dashboard/pages/attendance/AttendancePage";
+
 function App() {
   return (
     <Fragment>
@@ -48,6 +50,8 @@ function App() {
             element={<TakeAttendance />}
           />
           <Route exact path="getattendance" element={<Attendance_student />} />
+
+          {/* <Route exact path="attendance" element={<AttendancePage />} /> */}
         </Routes>
       </BrowserRouter>
     </Fragment>
