@@ -21,7 +21,7 @@ const courseSchema = new mongoose.Schema({
         type: String
     },
     students:[{
-        studentid:{
+        id:{
             type:String,
         }
     }]
