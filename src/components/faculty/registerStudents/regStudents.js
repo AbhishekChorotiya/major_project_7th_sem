@@ -40,6 +40,7 @@ const RegStudents = ()=>{
         console.log(data)
         data = objectKeysToLowerCase(data)
         setObjData(data)
+        console.log(data)
         postData(data)
     }
 
