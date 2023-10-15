@@ -291,7 +291,9 @@ app.post("/addCourse", async (req, res) => {
   const Semester = req.body.semester;
   const Branch = req.body.branch;
   const FacultyId = req.body.facultyId;
+  const students = req.body.students;
 
+  console.log(req.body)
   const check = await courseObj.findOne({
     CourseId,
   });
@@ -304,6 +306,7 @@ app.post("/addCourse", async (req, res) => {
       Semester,
       FacultyId,
       Branch,
+      students
     });
 
     await course.save();
