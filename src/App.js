@@ -18,6 +18,7 @@ import ActiveQuiz from "./components/student/quiz/active";
 import AddCourse from "./components/course/addCourse";
 import ManageAttendance from "./components/faculty/attendance/manageAttendance";
 import TakeAttendance from "./components/faculty/attendance/takeAttendance";
+import Attendance_student from "./components/student_dashboard/pages/Attendance";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             path="manageattendance/takeattendance"
             element={<TakeAttendance />}
           />
+          <Route exact path="getattendance" element={<Attendance_student />} />
         </Routes>
       </BrowserRouter>
     </Fragment>

@@ -45,8 +45,8 @@ app.use(
 );
 
 // CONNECTING SERVER TO MONGODB DATABASE --------------------------------------------------------
-// mongoose.connect("mongodb://127.0.0.1:27017/LMS");
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect("mongodb://127.0.0.1:27017/LMS");
+// mongoose.connect(process.env.MONGO_URL);
 var db = mongoose.connection;
 //checking
 
@@ -71,21 +71,22 @@ app.post("/adminLogin", (req, res) => {
 });
 
 app.post("/regStudents", async (req, res) => {
+  console.log(req.body);
   for (let i in req.body) {
     const student = new studentObj({
-      Id: req.body[i].idnumber,
+      Id: req.body[i].id,
       Name: req.body[i].name,
       Father: req.body[i].fathersname,
       Branch: req.body[i].branchname,
       Semester: req.body[i].semester,
       Contact: req.body[i].contact,
-      Email: req.body[i].idnumber + "@iiitkota.ac.in",
+      Email: req.body[i].id + "@iiitkota.ac.in",
       Gender: req.body[i].gender,
       Password: req.body[i].contact,
     });
     const data = await studentObj.findOne({ Id: req.body[i].idnumber });
     if (data) {
-      console.log("Duplicate student entry");
+      // console.log("Duplicate student entry");
       continue;
     } else {
       student.save();
@@ -332,6 +333,9 @@ app.post("/attendence/:course", async (req, res) => {
   // console.log(data);
   res.json(data);
 });
+
+// Attendance---------------------MAK--------------------------------
+const attendanceObj = require("./models/attendance");
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
