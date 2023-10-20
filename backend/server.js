@@ -288,7 +288,7 @@ app.post("/addCourse", async (req, res) => {
   const FacultyId = req.body.facultyId;
   const students = req.body.students;
 
-  console.log(req.body)
+  console.log(req.body);
   const check = await courseObj.findOne({
     CourseId,
   });
@@ -301,7 +301,7 @@ app.post("/addCourse", async (req, res) => {
       Semester,
       FacultyId,
       Branch,
-      students
+      students,
     });
 
     await course.save();
@@ -397,6 +397,15 @@ app.post("/logout", facultyAuth, async (req, res) => {
   await req.user.save();
   res.clearCookie("jwt");
   res.json("Logged Out");
+});
+
+app.get("/api/courses", studentAuth, async (req, res) => {
+  const courses = await courseObj.find({});
+  try {
+    res.status(200).send(courses);
+  } catch (e) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
 const PORT = process.env.PORT || 5000;
