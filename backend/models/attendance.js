@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const attendanceSchema = new mongoose.Schema({
-  faculty: {
+  facultyID: {
     type: String,
   },
   course: {
@@ -16,6 +16,15 @@ const attendanceSchema = new mongoose.Schema({
   year: {
     type: String,
   },
+  Date: {
+    type: Date,
+  },
+  students: [{
+    id:{
+      type: String,
+    }
+  }
+  ]
 });
 
 const attendanceObj = mongoose.model("attendance", attendanceSchema);

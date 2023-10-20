@@ -40,7 +40,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "*",
   })
 );
 
@@ -128,6 +128,7 @@ app.post("/regFaculty", async (req, res) => {
 });
 
 app.post("/facultyLogin", async (req, res) => {
+  console.log("Recieved Data : " + req.body)
   try {
     const user = await facultyObj.findByCredentials(
       req.body.email,
@@ -136,11 +137,11 @@ app.post("/facultyLogin", async (req, res) => {
     const token = await user.generateAuthToken();
     console.log(token);
     res.cookie("jwt", token);
-    return res.send({ message: "LoggedIn" });
+    return res.send({ message: "LoggedIn",code:1 });
     // res.redirect("/home");
   } catch (e) {
     // res.send("Invalid Credentials");
-    return res.send({ message: "error" });
+    return res.send({ message: "error" ,code:0});
   }
 });
 
@@ -163,13 +164,7 @@ app.post("/studentInfo", studentAuth, async (req, res) => {
   res.json(req.student);
 });
 
-app.post("/getFaculty", facultyAuth, async (req, res) => {
-  if (req.user) {
-    res.json(req.user);
-  } else {
-    res.json("No faculty logged in...");
-  }
-});
+
 
 app.post("/quizzForm", facultyAuth, async (req, res) => {
   console.log("Submitting Quiz form");
@@ -337,8 +332,72 @@ app.post("/attendence/:course", async (req, res) => {
   res.json(data);
 });
 
+app.post('/get_faculty',facultyAuth,(req,res)=>{
+  console.log('Sending Faculty info :')
+  console.log(req.user)
+  res.send(req.user)
+})
+
+app.post('/addAttendence',facultyAuth,(req,res)=>{
+  console.log(req.user)
+  res.json("added")
+
+})
+
 // Attendance---------------------MAK--------------------------------
 const attendanceObj = require("./models/attendance");
+
+
+//--------Mobile-APP------------
+
+app.post("/getFaculty", facultyAuth, async (req, res) => {
+  if (req.user) {
+    res.json({message:'Logged In',code:1,data:req.user});
+  } else {
+    res.json({message:'Please Login',code:0,data:''});
+  }
+});
+
+app.get('/test',(req,res)=>{
+
+  console.log('Request Coming From Mobile Device')
+  res.json("Request Recieved to Nodejs Server")
+})
+
+app.post('/test2',async (req,res)=>{
+
+  console.log(req.body)
+  const students = await studentObj.find()
+  const ids = students.map((a)=>a.Id)
+  const id_map = {};
+
+  for(let val of ids){
+    id_map[val] = 1
+  }
+
+  const data = req.body
+  const data_arr = []
+
+  for(let i=0;i<data.length;i++){
+    const studentID = data[i];
+    if(id_map[studentID]){
+      const student = await studentObj.findOne({Id:studentID})
+      // console.log(student)
+      data_arr.push(student)
+    }
+  }
+
+  res.json({message:"Data Recieved Successfully!!",data:data_arr})
+})
+
+app.post("/logout", facultyAuth, async (req, res) => {
+  req.user.tokens = req.user.tokens.filter(
+      (token) => token.token != req.cookies.jwt
+  );
+  await req.user.save();
+  res.clearCookie("jwt");
+  res.json("Logged Out");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

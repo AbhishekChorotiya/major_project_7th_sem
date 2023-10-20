@@ -22,6 +22,7 @@ const Faculty_dash = () => {
         <div className="button_div">
           <a href="/">Manage Students</a>
           <a href="/manageattendance">Take Attendance</a>
+          <a href="/createattendence">Create Attendance</a>
           <a href onClick={handleClick}>
             Create Quiz
           </a>
