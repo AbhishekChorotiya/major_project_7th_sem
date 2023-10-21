@@ -40,7 +40,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: ["*","http://localhost:3000"],
   })
 );
 
@@ -346,6 +346,14 @@ app.post('/addAttendence',facultyAuth,(req,res)=>{
 
 // Attendance---------------------MAK--------------------------------
 const attendanceObj = require("./models/attendance");
+app.get("/api/courses", studentAuth, async (req, res) => {
+  const courses = await courseObj.find({});
+  try {
+    res.status(200).send(courses);
+  } catch (e) {
+    res.status(500).send("Something went wrong");
+  }
+});
 
 
 //--------Mobile-APP------------
@@ -390,6 +398,19 @@ app.post('/test2',async (req,res)=>{
   res.json({message:"Data Recieved Successfully!!",data:data_arr})
 })
 
+app.post("/getCourseId", facultyAuth, async (req, res) => {
+  const courses = await courseObj.find()
+  const data = []
+  courses.forEach((a)=>{
+    data.push({label:a.CourseId,value:a.CourseId})
+  })
+
+  console.log(data)
+
+  res.json(data)
+
+});
+
 app.post("/logout", facultyAuth, async (req, res) => {
   req.user.tokens = req.user.tokens.filter(
       (token) => token.token != req.cookies.jwt
@@ -399,14 +420,7 @@ app.post("/logout", facultyAuth, async (req, res) => {
   res.json("Logged Out");
 });
 
-app.get("/api/courses", studentAuth, async (req, res) => {
-  const courses = await courseObj.find({});
-  try {
-    res.status(200).send(courses);
-  } catch (e) {
-    res.status(500).send("Something went wrong");
-  }
-});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
