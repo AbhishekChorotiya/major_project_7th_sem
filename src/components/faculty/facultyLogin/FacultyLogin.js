@@ -22,8 +22,8 @@ const FacultyLogin = () => {
   const postData = async(e)=>{
 
     e.preventDefault()
-
-    const res = await fetch('http://localhost:5000/facultyLogin',{
+    // https://ruby-hippopotamus-veil.cyclic.app/facultyLogin
+    const res = await fetch('http://localhost:5000/quizzForm/facultyLogin',{
       method:'post',
       credentials: 'include',
       headers:{
