@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import QuizzCss from "./Quizz.module.css";
 import FacultyCss from "../facultyReg/FacultyReg.module.css";
+import { useNavigate } from "react-router-dom";
 
 let QuizzForm = () => {
   const [title, setTitle] = useState("");
@@ -9,6 +10,7 @@ let QuizzForm = () => {
   const [questionNo, setQuestionNo] = useState("");
   const [duration, setDuration] = useState("");
   const [marks, setMarks] = useState("");
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     // console.log(e.target.name)
@@ -55,9 +57,11 @@ let QuizzForm = () => {
       body: JSON.stringify(post_data),
     });
 
+    console.log(post_data)
+
     const data = await res.json();
     console.log(data);
-    // alert(data.msg);
+    if(data.length>9) navigate('/addque?id='+data)
   };
 
   return (

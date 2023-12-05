@@ -191,9 +191,11 @@ app.post("/quizzForm", facultyAuth, async (req, res) => {
     faculty: req.user.Name,
   });
 
-  quiz.save();
+  await quiz.save();
 
-  res.json("ok");
+  const data = await quizObj.findOne({title:req.body.title})
+  console.log(data)
+  res.json(data._id);
 });
 
 app.get("/inactive", facultyAuth, async (req, res) => {
@@ -216,6 +218,7 @@ app.get("/active", studentAuth, async (req, res) => {
 app.get("/getQuizInfo/:data", async (req, res) => {
   const id = req.params.data;
   const quiz = await quizObj.findOne({ _id: id });
+  console.log(quiz)
   res.json(quiz);
 });
 
@@ -228,8 +231,8 @@ app.get("/getQuiz/:data", async (req, res) => {
 app.post("/addQue/:data", async (req, res) => {
   const id = req.params.data;
   const quiz = await quizObj.findOne({ _id: id });
-
   quiz.questions = req.body.questions;
+  console.log(req.body.questions)
   quiz.save();
 
   res.json("done");

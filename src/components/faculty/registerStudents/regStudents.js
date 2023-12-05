@@ -46,7 +46,7 @@ const RegStudents = ()=>{
 
     const postData = async (data)=>{
         console.log(data)
-        const res = await fetch('http://localhost:5000/regStudents',{
+        const res = await fetch('https://ruby-hippopotamus-veil.cyclic.app/regStudents',{
 
             method:'post',
             headers: {

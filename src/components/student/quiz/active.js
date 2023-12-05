@@ -18,6 +18,7 @@ const ActiveQuiz = () => {
         });
         const jsonData = await res.json();
         setData(jsonData);
+        console.log(jsonData)
       } catch (err) {
         console.error(err);
       }

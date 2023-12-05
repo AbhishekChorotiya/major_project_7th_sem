@@ -31,9 +31,9 @@ function QuizForm() {
   });
 
   const postData = async(e)=>{
-
+    
     e.preventDefault()
-
+    handleClick()
     const res = await fetch(`http://localhost:5000/addQue/${url}`,{
       method:'post',
       credentials: 'include',
@@ -42,7 +42,7 @@ function QuizForm() {
       },
       body: JSON.stringify(quiz)
     })
-
+    console.log(quiz)
     const data = await res.json()
 
     console.log(data)
