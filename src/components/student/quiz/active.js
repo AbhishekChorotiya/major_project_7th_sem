@@ -7,27 +7,25 @@ const ActiveQuiz = () => {
   const [data, setData] = useState([]);
   var sno = 1;
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/active", {
-          method: "get",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const jsonData = await res.json();
-        setData(jsonData);
-        console.log(jsonData)
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [1]);
 
-  console.log("InActiveQuiz rendered"); // add this line
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/active", {
+        method: "get",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const jsonData = await res.json();
+      setData(jsonData);
+      console.log(jsonData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -49,20 +47,21 @@ const ActiveQuiz = () => {
               <th>Duration</th>
               <th>Action</th>
             </tr>
-            {data.map((quiz) => (
-              <Card
-                key={quiz._id}
-                id={quiz._id}
-                sno={sno++}
-                title={quiz.title}
-                faculty={quiz.faculty}
-                year={quiz.year}
-                branch={quiz.branch}
-                duration={quiz.duration}
-                marks={quiz.marks}
-                tques={quiz.totalQues}
-              />
-            ))}
+            {data &&
+              data.map((quiz) => (
+                <Card
+                  key={quiz._id}
+                  id={quiz._id}
+                  sno={sno++}
+                  title={quiz.title}
+                  faculty={quiz.faculty}
+                  year={quiz.year}
+                  branch={quiz.branch}
+                  duration={quiz.duration}
+                  marks={quiz.marks}
+                  tques={quiz.totalQues}
+                />
+              ))}
           </table>
         </div>
       </div>

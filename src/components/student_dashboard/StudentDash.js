@@ -11,6 +11,7 @@ import AttendancePage from "./pages/attendance/AttendancePage";
 
 const StudentDash = () => {
   const navigate = useNavigate();
+
   function handleQuiz() {
     navigate(`/active`);
   }
@@ -89,8 +90,8 @@ const StudentDash = () => {
           <button onClick={() => setPageNo(8)}>Faculty Feedback</button>
           <button onClick={() => setPageNo(9)}>Student Feedback</button>
           <button
-            // onClick={handleQuiz}
-            onClick={() => setPageNo(10)}
+            onClick={handleQuiz}
+            // onClick={() => setPageNo(10)}
           >
             Quiz
           </button>

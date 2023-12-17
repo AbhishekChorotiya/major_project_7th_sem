@@ -11,7 +11,7 @@ const Card = (props) => {
 
   return (
     <>
-      <tr>
+      <tr key={props.key}>
         <td>{props.sno}</td>
         <td>{props.faculty}</td>
         <td>{props.title}</td>
