@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Faculty_dash = () => {
   const navigatee = useNavigate();
 
-  function handleClick() {
-    navigatee("/quizzform");
+  function handleClick(nav) {
+    navigatee(nav);
   }
 
   console.log("Abhishek");
@@ -23,8 +23,11 @@ const Faculty_dash = () => {
           <a href="/">Manage Students</a>
           <a href="/manageattendance">Take Attendance</a>
           <a href="/createattendence">Create Attendance</a>
-          <a href onClick={handleClick}>
+          <a href onClick={() => handleClick("/quizzform")}>
             Create Quiz
+          </a>
+          <a href onClick={() => handleClick("/uploadMaterial")}>
+            Upload Study Materials
           </a>
         </div>
       </div>

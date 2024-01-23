@@ -20,8 +20,8 @@ import ManageAttendance from "./components/faculty/attendance/manageAttendance";
 import TakeAttendance from "./components/faculty/attendance/takeAttendance";
 import Attendance_student from "./components/student_dashboard/pages/Attendance";
 import Create_attendence from "./components/faculty/create_attendence/attendence";
-
 import AttendancePage from "./components/student_dashboard/pages/attendance/AttendancePage";
+import UploadMaterial from "./components/faculty/quizzForm/UploadMaterial";
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
           <Route exact path="facultyDash" element={<Faculty_dash />} />
           <Route exact path="addQue" element={<AddQue />} />
           <Route exact path="quizzform" element={<QuizzForm />} />
+          <Route exact path="/uploadMaterial" element={<UploadMaterial />} />
           <Route exact path="inactive" element={<InActiveQuiz />} />
           <Route exact path="student" element={<StudentLogin />} />
           <Route exact path="studentDash" element={<StudentDash />} />
@@ -45,7 +46,11 @@ function App() {
           <Route exact path="quiz" element={<QuizPage />} />
           <Route exact path="addcourse" element={<AddCourse />} />
           <Route exact path="manageattendance" element={<ManageAttendance />} />
-          <Route exact path="/createattendence" element={<Create_attendence />} />
+          <Route
+            exact
+            path="/createattendence"
+            element={<Create_attendence />}
+          />
           <Route
             exact
             path="manageattendance/takeattendance"
