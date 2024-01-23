@@ -8,6 +8,7 @@ import Dash from "./pages/Dashboard";
 import Test from "./pages/Test";
 
 import AttendancePage from "./pages/attendance/AttendancePage";
+import StudyMaterial from "./pages/studyMaterial/StudyMaterial";
 
 const StudentDash = () => {
   const navigate = useNavigate();
@@ -100,7 +101,15 @@ const StudentDash = () => {
         </div>
 
         <div className={StudentDashCss["panel-display"]}>
-          {pageNo == 1 ? <Dash /> : pageNo == 3 ? <AttendancePage /> : <Dash />}
+          {pageNo == 1 ? (
+            <Dash />
+          ) : pageNo == 3 ? (
+            <AttendancePage />
+          ) : pageNo === 7 ? (
+            <StudyMaterial />
+          ) : (
+            <Dash />
+          )}
         </div>
       </div>
     </div>
