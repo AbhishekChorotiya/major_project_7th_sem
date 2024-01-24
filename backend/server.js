@@ -19,6 +19,7 @@ const studentObj = require("./models/student");
 const responseObj = require("./models/responses");
 const resultsObj = require("./models/result");
 const courseObj = require("./models/courses");
+const studyMaterialObj = require("./models/studyMaterial");
 
 //Middleware authentication
 
@@ -390,6 +391,8 @@ app.post("/addAttendence", facultyAuth, (req, res) => {
 
 // Attendance---------------------MAK--------------------------------
 const attendanceObj = require("./models/attendance");
+const StudyMaterialObj = require("./models/studyMaterial");
+const { time } = require("console");
 app.get("/api/courses", studentAuth, async (req, res) => {
   const courses = await courseObj.find({});
   try {
@@ -544,6 +547,30 @@ app.post("/logout", facultyAuth, async (req, res) => {
   } catch (e) {
     res.json("Error");
   }
+});
+
+app.post("/studyMaterial", facultyAuth, async (req, res) => {
+  const data = req.body
+  console.log(data)
+
+  const studyMaterial = new StudyMaterialObj({
+    Title: data.title,
+    CourseId : data.selectedCourse,
+    Link : data.link,
+    AdditionalInfo : data.additionalInfo,
+    FacultyName: req.user.Name
+  })
+
+  await studyMaterial.save()
+
+  res.json('done')
+});
+
+app.post("/getStudyMaterial", facultyAuth, async (req, res) => {
+
+  const data = await studyMaterialObj.find()
+  console.log(data)
+  res.json(data)
 });
 
 const PORT = process.env.PORT || 5000;

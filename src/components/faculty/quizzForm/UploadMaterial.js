@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import QuizzCss from "./Quizz.module.css";
 import FacultyCss from "../facultyReg/FacultyReg.module.css";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ let UploadMaterial = () => {
   const [link, setLink] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
   const navigate = useNavigate();
+  const [ids, setIds] = useState([])
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -17,25 +18,52 @@ let UploadMaterial = () => {
 
     if (name === "link") {
       setLink(value);
-    } else if (name === "additionalInfo") {
+    }
+    if (name === "additionalInfo") {
       setAdditionalInfo(value);
+    }
+    if(name === "title"){
+      setTitle(value)
     }
   };
 
+  useEffect(()=>{
+    getCourses()
+  },[])
+
+  async function getCourses(){
+    const res = await fetch('http://localhost:5000/getCourseId',{
+      method: "post",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const data = await res.json()
+    const ids = data.map((a)=>a.label)
+    setIds(Object.values(ids))
+    console.log(Object.values(ids))
+  }
+
   const handleSubmit = async () => {
-    // const post_data = {};
-    // const res = await fetch("http://localhost:5000/quizzForm", {
-    //   method: "post",
-    //   credentials: "include",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(post_data),
-    // });
-    // console.log(post_data);
-    // const data = await res.json();
-    // console.log(data);
-    // if (data.length > 9) navigate("/addque?id=" + data);
+    const post_data = { title,selectedCourse,link,additionalInfo };
+    const res = await fetch("http://localhost:5000/studyMaterial", {
+      method: "post",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post_data),
+    });
+    console.log(post_data);
+    const data = await res.json();
+    if(data == 'done'){
+      alert('Study Material Uploaded Successfully')
+    }else{
+      alert('Error... Please Try Again')
+    }
+    console.log(data);
   };
 
   const handleOnSelect = (res) => {
@@ -51,11 +79,21 @@ let UploadMaterial = () => {
         </div>
         <div className={FacultyCss.form}>
           <div className={FacultyCss.frm}>
+            <label className={FacultyCss.labl} for="title">
+              Title:
+            </label>
+            <input
+              className={FacultyCss.inp}
+              type="text"
+              placeholder="Title of the content..."
+              name="title"
+              onChange={handleChange}
+            />
             <label className={FacultyCss.labl} for="marks">
               Select Course:
             </label>
             <Dropdown
-              data={["English", "Physics", "Chemistry", "Maths"]}
+              data={ids}
               onSelect={handleOnSelect}
             />
 

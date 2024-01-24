@@ -66,9 +66,10 @@ html {
 }
 
 .labl {
-  margin: 1.2rem 0 0.2rem 0;
+  margin: 0.5rem 0rem;
   align-self: flex-start;
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
+  font-weight: bold;
 }
 
 .btn {

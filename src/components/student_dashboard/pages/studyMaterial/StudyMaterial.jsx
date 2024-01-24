@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from "react";
 import styles from "./StudyMaterial.module.css";
+import { useNavigate } from "react-router-dom";
 
 function StudyMaterial() {
-  //   const [courses, setCourses] = useState();
+
+  const [StudyMaterial,setStudyMaterial] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
-    // fetchCourse();
+    fetchCourse();
   }, []);
 
+  function handleClick(i){
+    window.location.href = StudyMaterial[i].Link
+  }
+
   const fetchCourse = async () => {
-    // const res = await fetch("http://localhost:5000/api/courses", {
-    //   method: "get",
-    //   credentials: "include",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    // });
-    // const data = await res.json();
-    // if (data) {
-    //   setCourses(data);
-    //   console.log(data);
-    // }
+    const res = await fetch("http://localhost:5000/getStudyMaterial", {
+      method: "post",
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    if (data) {
+      setStudyMaterial(data);
+      console.log(data);
+    }
   };
 
   let srNo = 1;
@@ -36,20 +43,20 @@ function StudyMaterial() {
             <th>Uploaded By</th>
             <th>View</th>
           </tr>
-          {/* {courses &&
-            courses.map((item, index) => (
-              
-            ))} */}
 
-          <tr className={styles["table-row"]}>
-            <td>1</td>
-            <td>ect123</td>
-            <td>ABC</td>
-            <td>Arun Kishore Johar</td>
-            <td style={{ position: "relative" }}>
-              <button>click</button>
-            </td>
-          </tr>
+            {
+              StudyMaterial.map((_,i)=>(
+                <tr className={styles["table-row"]}>
+                <td>{i+1}</td>
+                <td>{_.CourseId}</td>
+                <td>{_.Title}</td>
+                <td>{_.FacultyName}</td>
+                <td style={{ position: "relative" }}>
+                  <button onClick={()=>{handleClick(i)}}>click</button>
+                </td>
+              </tr>
+              ))
+            }
         </tbody>
       </table>
     </div>
